@@ -10,4 +10,12 @@ export class Command {
      * @returns {Promise<void>}
      */
     async handle(interaction) {}
+
+    /**
+     * @param {import("sqlite3").Database} db
+     */
+    constructor(db) {
+        /** @type {import("sqlite3").Database} */
+        this.db = db;
+    }
 };

@@ -3,8 +3,13 @@ import Ping from "./ping.js";
 import { Routes } from 'discord.js';
 
 export class Commands {
-    /** @type {Command[]} Enabled command instances */
-    instances = [new Ping()];
+    /**
+     * @param {import("sqlite3").Database} db
+     */
+    constructor(db) {
+        /** @type {Command[]} Enabled command instances */
+        this.instances = [new Ping(db)];
+    }
 
     /**
      * Refresh application (/) commands.
