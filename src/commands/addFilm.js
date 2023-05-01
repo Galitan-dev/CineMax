@@ -56,7 +56,7 @@ export default class AddFilm extends Command {
                     ephemeral: true,
                 });
             } else {
-                await interaction.reply(`Le film "${name}" a bien été ajoutée !`);
+                await interaction.reply(`Le film "${name}" a bien été ajouté !`);
             }
         })
     }

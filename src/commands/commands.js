@@ -3,6 +3,7 @@ import AddFilm from "./addFilm.js";
 import { Command } from "./index.js";
 import Ping from "./ping.js";
 import { Routes, SlashCommandBuilder } from 'discord.js';
+import Search from "./search.js";
 
 export class Commands {
     /**
@@ -10,7 +11,7 @@ export class Commands {
      */
     constructor(db) {
         /** @type {Command[]} Enabled command instances */
-        this.instances = [new Ping(db), new AddFilm(db), new AddCategory(db)];
+        this.instances = [new Ping(db), new AddFilm(db), new AddCategory(db), new Search(db)];
     }
 
     /**
@@ -18,7 +19,8 @@ export class Commands {
      * @param {import("discord.js").REST} rest
      * @returns {Promise<void>}
      */
-    async refresh(rest) {
+    async refresh(rest = this.rest) {
+        this.rest = rest
         try {
             console.log('Started refreshing application (/) commands.');
             await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
@@ -46,7 +48,7 @@ export class Commands {
 
         if (command) {
             await command.handle(interaction);
-            if (command.needsRefresh()) await this.refresh();
+            if (command.needsRefresh) await this.refresh();
         }
     }
 }

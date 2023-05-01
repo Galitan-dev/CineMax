@@ -13,6 +13,11 @@ export default class Ping extends Command {
         done();
     }
 
+    /**
+     * Handle an interaction
+     * @param {import("discord.js").CommandInteraction} interaction
+     * @returns {Promise<void>}
+     */
     async handle(interaction) {
         await interaction.reply('Pong!');
     }
