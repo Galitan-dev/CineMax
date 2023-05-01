@@ -1,8 +1,14 @@
 export class Command {
-    /** @type {string} The name of the command */
-    name = "";
-    /** @type {string} Short description of what command does */
-    description = "";
+    name = ""
+
+    /**
+     * Configure slash command
+     * @param {import("discord.js").SlashCommandBuilder} command
+     * @param {() => ()} done
+    */
+    config(command, done) {
+        done();
+    }
 
     /**
      * Handle an interaction

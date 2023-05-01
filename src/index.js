@@ -15,10 +15,10 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const db = new Database("db/database.sqlite");
 
 db.serialize(() => {
-  db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='films';", (err, row) => {
-    if (row?.name === 'films') return;
+  db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='film';", (err, row) => {
+    if (row?.name === 'film') return;
 
-    const queries = readFileSync('db/schema.sql', 'utf8').split('\n');
+    const queries = readFileSync('db/schema.sql', 'utf8').split('\n\n');
     for (const query of queries) {
       if (query.length == 0) continue;
       db.run(query, (err) => {

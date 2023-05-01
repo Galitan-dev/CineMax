@@ -1,6 +1,8 @@
+import AddCategory from "./addCategory.js";
+import AddFilm from "./addFilm.js";
 import { Command } from "./index.js";
 import Ping from "./ping.js";
-import { Routes } from 'discord.js';
+import { Routes, SlashCommandBuilder } from 'discord.js';
 
 export class Commands {
     /**
@@ -8,7 +10,7 @@ export class Commands {
      */
     constructor(db) {
         /** @type {Command[]} Enabled command instances */
-        this.instances = [new Ping(db)];
+        this.instances = [new Ping(db), new AddFilm(db), new AddCategory(db)];
     }
 
     /**
@@ -20,9 +22,10 @@ export class Commands {
         try {
             console.log('Started refreshing application (/) commands.');
             await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
-                body: this.instances.map(command => ({
-                    name: command.name,
-                    description: command.description,
+                body: await Promise.all(this.instances.map(async command => {
+                    const cmd = new SlashCommandBuilder().setName(command.name);
+                    await new Promise(resolve => command.config(cmd, resolve));
+                    return cmd.toJSON();
                 })),
             });
             console.log('Successfully reloaded application (/) commands.');
@@ -41,6 +44,7 @@ export class Commands {
 
         const command = this.instances.find(command => command.name == interaction.commandName);
 
-        if (command) return command.handle(interaction);
+        if (command) return await command.handle(interaction);
+        this.refresh();
     }
 }
