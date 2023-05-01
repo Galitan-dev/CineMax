@@ -39,6 +39,25 @@ export default class AddFilm extends Command {
         });
     }
 
+    /**
+     * Handle an interaction
+     * @param {import("discord.js").CommandInteraction} interaction
+     * @returns {Promise<void>}
+     */
     async handle(interaction) {
+        const name = interaction.options.getString("name");
+        const category = parseInt(interaction.options.getString("category"));
+        const link = interaction.options.getString("link");
+        this.db.run("INSERT INTO film (name, link, category) VALUES (?, ?, ?)", name, link, category, async (err) => {
+            if (err) {
+                console.error(err);
+                await interaction.reply({
+                    content: "Une erreur s'est produite.",
+                    ephemeral: true,
+                });
+            } else {
+                await interaction.reply(`Le film "${name}" a bien été ajoutée !`);
+            }
+        })
     }
 }
