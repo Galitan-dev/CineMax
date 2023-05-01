@@ -1,5 +1,6 @@
 export class Command {
     name = ""
+    needsRefresh = false;
 
     /**
      * Configure slash command

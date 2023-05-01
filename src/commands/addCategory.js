@@ -2,6 +2,7 @@ import { Command } from "./command.js";
 
 export default class AddCategory extends Command {
     name = "addcategory";
+    needsRefresh = true;
 
     /**
      * Configure slash command

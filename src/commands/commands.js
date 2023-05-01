@@ -44,7 +44,9 @@ export class Commands {
 
         const command = this.instances.find(command => command.name == interaction.commandName);
 
-        if (command) return await command.handle(interaction);
-        this.refresh();
+        if (command) {
+            await command.handle(interaction);
+            if (command.needsRefresh()) await this.refresh();
+        }
     }
 }
