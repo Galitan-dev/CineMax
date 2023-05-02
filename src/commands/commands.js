@@ -38,7 +38,7 @@ export class Commands {
 
     /**
      * Handle an interaction
-     * @param {import("discord.js").Interaction<import("discord.js").CacheType>} interaction
+     * @param {import("discord.js").CommandInteraction} interaction
      * @returns {Promise<void>}
      */
     async handle(interaction) {
