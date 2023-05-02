@@ -11,10 +11,10 @@ export default class AddFilm extends Command {
     */
     config(command, done) {
         const categories = [];
-        this.db.each("SELECT categoryid, name FROM category", (_, category) => {
+        this.db.each("SELECT id, name FROM category", (_, category) => {
             categories.push({
                 name: category.name,
-                value: category.categoryid.toString(),
+                value: category.id.toString(),
             })
         }, () => {
             command.setDescription("Ajouter un film à la base de données")
@@ -48,7 +48,7 @@ export default class AddFilm extends Command {
         const name = interaction.options.getString("name");
         const category = parseInt(interaction.options.getString("category"));
         const link = interaction.options.getString("link");
-        this.db.run("INSERT INTO film (name, link, category) VALUES (?, ?, ?)", name, link, category, async (err) => {
+        this.db.run("INSERT INTO film (name, link, categoryid) VALUES (?, ?, ?)", name, link, category, async (err) => {
             if (err) {
                 console.error(err);
                 await interaction.reply({

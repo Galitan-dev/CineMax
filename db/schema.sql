@@ -1,12 +1,12 @@
 CREATE TABLE category (
-    categoryid INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     name       TEXT NOT NULL
 );
 
 CREATE TABLE film (
-    filmid   INTEGER PRIMARY KEY,
+    id   INTEGER PRIMARY KEY,
     name     TEXT NOT NULL,
     link     TEXT NOT NULL,
-    category INTEGER NOT NULL,
-    FOREIGN KEY(category) REFERENCES category(categoryid)
+    categoryid INTEGER NOT NULL,
+    FOREIGN KEY(categoryid) REFERENCES category(id)
 );
