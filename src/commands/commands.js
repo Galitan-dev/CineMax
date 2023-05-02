@@ -47,10 +47,16 @@ export class Commands {
 
     /**
      * Handle an interaction
-     * @param {import("discord.js").CommandInteraction} interaction
+     * @param {import("discord.js").Interaction} interaction
      * @returns {Promise<void>}
      */
     async handle(interaction) {
+        if (interaction.isButton()) {
+            const [commandName, method, ...args] = interaction.customId.split(/[-(,)]+/g);
+            const command = this.instances.find(command => command.name == commandName);
+            await command[method](interaction, ...args);
+        }
+
         if (!interaction.isChatInputCommand()) return;
 
         const command = this.instances.find(command => command.name == interaction.commandName);
